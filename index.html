@@ -146,7 +146,7 @@
       if (date.getSeconds() === 0) second.style.transition = "unset";
       if (date.getSeconds() === 1) second.style.transition = TRANSITION_ELASTIC;
 
-      hour.style.transform = `rotate(${date.getHours() * (360 / 60) + 180}deg)`;
+      hour.style.transform = `rotate(${date.getHours() * (360 / 12) + 180}deg)`;
       minute.style.transform = `rotate(${date.getMinutes() * (360 / 60) + 180}deg)`;
       second.style.transform = `rotate(${date.getSeconds() * (360 / 60) + 180 + (Math.random() - 0.5) * 2}deg)`;
 
