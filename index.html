@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timepiece</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      background-color: #ddd;
+    }
+
+    #timepiece {
+      position: relative;
+      width: 95vmin;
+      height: 95vmin;
+      margin: 0 auto;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 4px solid #888;
+    }
+
+    .hand {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: 50% 50%;
+      opacity: 0.8;
+      transition: transform 0.3s linear(0 0%, 0.22 2.1%, 0.86 6.5%, 1.11 8.6%, 1.3 10.7%, 1.35 11.8%, 1.37 12.9%, 1.37 13.7%, 1.36 14.5%, 1.32 16.2%, 1.03 21.8%, 0.94 24%, 0.89 25.9%, 0.88 26.85%, 0.87 27.8%, 0.87 29.25%, 0.88 30.7%, 0.91 32.4%, 0.98 36.4%, 1.01 38.3%, 1.04 40.5%, 1.05 42.7%, 1.05 44.1%, 1.04 45.7%, 1 53.3%, 0.99 55.4%, 0.98 57.5%, 0.99 60.7%, 1 68.1%, 1.01 72.2%, 1 86.7%, 1 100%);
+    }
+
+    .hand::after {
+      content: "";
+      display: block;
+      transform: translateX(-50%);
+      transform-origin: 50% 100%;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #hour {
+      transform: rotate(180deg);
+    }
+
+    #hour::after {
+      width: 1.2vmin;
+      height: 30vmin;
+      background-color: #000;
+    }
+
+    #minute {
+      transform: rotate(180deg);
+    }
+
+    #minute::after {
+      width: 1.0vmin;
+      height: 36vmin;
+      background-color: #000;
+    }
+
+    #second {
+      transform: rotate(180deg);
+    }
+
+    #second::after {
+      width: 0.8vmin;
+      height: 42vmin;
+      background-color: #000;
+    }
+
+    .center {
+      height: 2vmin;
+      width: 2vmin;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #888;
+    }
+
+    .center::after {
+      content: "";
+      display: block;
+      height: 1vmin;
+      width: 1vmin;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ff0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="timepiece">
+    <div id="hour" class="hand"></div>
+    <div id="minute" class="hand"></div>
+    <div id="second" class="hand"></div>
+    <div class="center"></div>
+  </div>
+
+  <audio name="audio" src="./sound/ticktack-0.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-1.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-2.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-3.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-4.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-5.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-6.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-7.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-8.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-9.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-a.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-b.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-c.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-d.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-e.ogg"></audio>
+  <audio name="audio" src="./sound/ticktack-f.ogg"></audio>
+
+  <script>
+    const hour = document.getElementById('hour');
+    const minute = document.getElementById('minute');
+    const second = document.getElementById('second');
+    /** @type{Array<HTMLAudioElement>} */
+    const audios = [...document.getElementsByName("audio")];
+    const date = new Date();
+
+    const TRANSITION_ELASTIC = "transform 0.3s linear(0 0%, 0.22 2.1%, 0.86 6.5%, 1.11 8.6%, 1.3 10.7%, 1.35 11.8%, 1.37 12.9%, 1.37 13.7%, 1.36 14.5%, 1.32 16.2%, 1.03 21.8%, 0.94 24%, 0.89 25.9%, 0.88 26.85%, 0.87 27.8%, 0.87 29.25%, 0.88 30.7%, 0.91 32.4%, 0.98 36.4%, 1.01 38.3%, 1.04 40.5%, 1.05 42.7%, 1.05 44.1%, 1.04 45.7%, 1 53.3%, 0.99 55.4%, 0.98 57.5%, 0.99 60.7%, 1 68.1%, 1.01 72.2%, 1 86.7%, 1 100%)";
+
+    setInterval(() => {
+      date.setTime(Date.now());
+      console.log(date.getHours(), date.getMonth(), date.getSeconds(), date.getTime() / 1000);
+
+      if (date.getHours() === 0) hour.style.transition = "unset";
+      if (date.getHours() === 1) hour.style.transition = TRANSITION_ELASTIC;
+      if (date.getMinutes() === 0) minute.style.transition = "unset";
+      if (date.getMinutes() === 1) minute.style.transition = TRANSITION_ELASTIC;
+      if (date.getSeconds() === 0) second.style.transition = "unset";
+      if (date.getSeconds() === 1) second.style.transition = TRANSITION_ELASTIC;
+
+      hour.style.transform = `rotate(${date.getHours() * (360 / 60) + 180}deg)`;
+      minute.style.transform = `rotate(${date.getMinutes() * (360 / 60) + 180}deg)`;
+      second.style.transform = `rotate(${date.getSeconds() * (360 / 60) + 180 + (Math.random() - 0.5) * 2}deg)`;
+
+      audios[Math.trunc(Math.random() * audios.length)].play();
+    }, 1000);
+  </script>
+</body>
+
+</html>
