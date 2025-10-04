@@ -97,6 +97,22 @@
       transform: translate(-50%, -50%);
       background-color: #ff0;
     }
+
+    .scale,
+    .scale-bold {
+      width: 0.8vmin;
+      height: 3vmin;
+      background-color: #444;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%); 
+      transform-origin: 50% 47.5vmin;
+    }
+
+    .scale-bold {
+      width: 1vmin;
+      height: 5vmin;
+    }
   </style>
 </head>
 
@@ -126,18 +142,37 @@
   <audio name="audio" src="./sound/ticktack-f.ogg"></audio>
 
   <script>
+    const timepiece = document.getElementById('timepiece');
     const hour = document.getElementById('hour');
     const minute = document.getElementById('minute');
     const second = document.getElementById('second');
+    
+
+    (() => {
+      for (let i = 0; i < 60; i++) {
+        const scale = document.createElement('div');
+        if(i % 5 === 0) {
+          scale.classList.add('scale-bold');
+        } else {
+          scale.classList.add('scale');
+        }
+
+        scale.style.transform = `translateX(-50%) rotate(${i * 360 / 60}deg)`;
+        
+
+        timepiece.appendChild(scale);
+      }
+    })();
+    
     /** @type{Array<HTMLAudioElement>} */
     const audios = [...document.getElementsByName("audio")];
     const date = new Date();
-
-    const TRANSITION_ELASTIC = "transform 0.3s linear(0 0%, 0.22 2.1%, 0.86 6.5%, 1.11 8.6%, 1.3 10.7%, 1.35 11.8%, 1.37 12.9%, 1.37 13.7%, 1.36 14.5%, 1.32 16.2%, 1.03 21.8%, 0.94 24%, 0.89 25.9%, 0.88 26.85%, 0.87 27.8%, 0.87 29.25%, 0.88 30.7%, 0.91 32.4%, 0.98 36.4%, 1.01 38.3%, 1.04 40.5%, 1.05 42.7%, 1.05 44.1%, 1.04 45.7%, 1 53.3%, 0.99 55.4%, 0.98 57.5%, 0.99 60.7%, 1 68.1%, 1.01 72.2%, 1 86.7%, 1 100%)";
-
+    
     setInterval(() => {
       date.setTime(Date.now());
       console.log(date.getHours(), date.getMonth(), date.getSeconds(), date.getTime() / 1000);
+      
+      const TRANSITION_ELASTIC = "transform 0.3s linear(0 0%, 0.22 2.1%, 0.86 6.5%, 1.11 8.6%, 1.3 10.7%, 1.35 11.8%, 1.37 12.9%, 1.37 13.7%, 1.36 14.5%, 1.32 16.2%, 1.03 21.8%, 0.94 24%, 0.89 25.9%, 0.88 26.85%, 0.87 27.8%, 0.87 29.25%, 0.88 30.7%, 0.91 32.4%, 0.98 36.4%, 1.01 38.3%, 1.04 40.5%, 1.05 42.7%, 1.05 44.1%, 1.04 45.7%, 1 53.3%, 0.99 55.4%, 0.98 57.5%, 0.99 60.7%, 1 68.1%, 1.01 72.2%, 1 86.7%, 1 100%)";
 
       if (date.getHours() === 0) hour.style.transition = "unset";
       if (date.getHours() === 1) hour.style.transition = TRANSITION_ELASTIC;
